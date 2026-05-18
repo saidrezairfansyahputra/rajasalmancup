@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Raja Salman CUP Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00e5ff;
+            --neon-red: #ff5252;
+            --bg-dark: #020b1e;
+            --card-bg: #06193e;
+            --text-muted: #7388a7;
+        }
+
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+            background-color: #020b1e !important;
+            color: #e2ebf8;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            background-color: transparent;
+        }
+
+        .container { 
+            width: 100%;
+            max-width: 100vw; 
+            padding: 10px;
+            margin: 0 auto;
+            padding-bottom: 85px; 
+            overflow-x: hidden;
+        }
+
+        h2 { 
+            font-family: 'Orbitron', sans-serif;
+            text-align: center; 
+            color: #ffffff !important; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin: 20px 0 12px 0; 
+            font-size: 1.15rem;
+            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+        }
+
+        .bottom-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            max-width: 100vw;
+            background-color: #06193e !important; 
+            border-top: 2px solid var(--neon-cyan);
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            padding: 8px; 
+            z-index: 9999;
+        }
+
+        .btn-luxe {
+            border: 1px solid rgba(0, 229, 255, 0.4); border-radius: 6px;
+            font-family: 'Rajdhani', sans-serif; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; color: #ffffff !important;
+            background-color: #0d234d !important;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 6px 12px; height: 30px;
+        }
+
+        .btn-luxe:hover {
+            border-color: var(--neon-cyan);
+            background-color: var(--neon-cyan) !important;
+            color: #000000 !important;
+        }
+
+        .card { 
+            background-color: #06193e !important; border-radius: 10px; padding: 12px; 
+            margin-bottom: 12px; border: 1px solid rgba(0, 229, 255, 0.15); 
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .info-box {
+            background-color: #09265c !important;
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-left: 4px solid var(--neon-cyan) !important;
+            border-radius: 6px; padding: 12px; margin-bottom: 12px; width: 100%;
+        }
+        
+        .info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .info-title { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--neon-cyan) !important; font-weight: bold; }
+        .info-content { font-size: 0.9rem; line-height: 1.3; color: #e2ebf8 !important; white-space: pre-wrap; }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            table-layout: fixed; 
+        }
+        
+        th, td { 
+            background-color: transparent !important; 
+            padding: 8px 2px; 
+            font-size: 0.85rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th { font-size: 0.65rem; color: var(--text-muted); font-family: 'Orbitron'; }
+
+        .match-box { 
+            background-color: #0b224a !important; padding: 12px; margin-bottom: 8px; border-radius: 8px; 
+            border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid var(--text-muted) !important; width: 100%;
+        }
+        .match-box.completed { border-left-color: var(--neon-cyan) !important; background-color: #052c54 !important; }
+        .match-main { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+        .team-col { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden; }
+        .team-name { font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; color: #ffffff !important; width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+        
+        .status-tag { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: bold; margin-top: 2px; }
+        .status-tag.win { color: var(--neon-cyan) !important; }
+        .status-tag.lose { color: var(--neon-red) !important; opacity: 0.6; }
+        
+        .win-btn-small { 
+            background-color: #09315c !important; color: var(--neon-cyan) !important; border: 1px solid rgba(0, 229, 255, 0.4); 
+            padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Orbitron';
+            width: 100%; max-width: 70px; cursor: pointer; height: 22px; margin-top: 2px;
+        }
+
+        .admin-only { display: none !important; }
+        .viewer-only { display: block !important; }
+        body.admin-mode .admin-only { display: block !important; }
+        body.admin-mode .admin-only.btn-luxe { display: inline-flex !important; }
+        body.admin-mode .viewer-only { display: none !important; }
+
+        .divider { border-top: 1px dashed rgba(255, 255, 255, 0.1); margin: 20px 0; }
+        .sponsor-section { text-align: center; margin-top: 15px; width: 100%; }
+        .sponsor-title { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--text-muted) !important; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+        .sponsor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+        .sponsor-item {
+            background-color: #05183b !important; border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px; padding: 8px 2px; display: flex; align-items: center; justify-content: center; min-height: 55px;
+        }
+        .sponsor-item img { max-width: 100%; max-height: 40px; object-fit: contain; }
+        .sponsor-text-node { display: flex; flex-direction: column; align-items: center; }
+        .sponsor-text-node .main-sp { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.75rem; color: #ffffff !important; }
+        .sponsor-text-node .sub-sp { font-size: 0.45rem; color: var(--neon-cyan) !important; margin-top: 1px; text-transform: uppercase; }
+
+        .footer-info { text-align: center; font-size: 0.75rem; margin-top: 20px; color: var(--text-muted) !important; line-height: 1.4; }
+        .footer-info a { color: var(--neon-cyan) !important; text-decoration: none; font-weight: bold; }
+        .copyright { text-align: center; font-size: 0.6rem; margin: 12px 0 5px 0; color: rgba(255, 255, 255, 0.25) !important; font-family: 'Orbitron'; letter-spacing: 1px; }
+
+        #add-team-card.locked { display: none !important; }
+        .lock-warning { color: var(--neon-red) !important; font-size: 0.7rem; text-align: center; display: none; margin-bottom: 8px; font-weight: bold; padding: 0 5px; }
+        .locked .lock-warning { display: block; }
+        
+        .live-indicator {
+            display: inline-flex; align-items: center; gap: 5px; font-family: 'Orbitron';
+            font-size: 0.6rem; color: #00e5ff !important; background: rgba(0, 229, 255, 0.06) !important;
+            padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0, 229, 255, 0.15);
+            margin: 0 auto 12px auto; width: fit-content;
+        }
+        .live-dot { width: 5px; height: 5px; background-color: #00e5ff !important; border-radius: 50%; animation: blink 1.2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="bottom-nav">
+        <button class="btn-luxe viewer-only" onclick="requestAdmin()">ADMIN LOGIN</button>
+        <button class="btn-luxe admin-only" onclick="undo()">UNDO</button>
+        <button class="btn-luxe admin-only" onclick="changeAdminPassword()">PIN</button>
+        <button class="btn-luxe admin-only" style="border-color: var(--neon-red); color: var(--neon-red) !important;" onclick="logoutAdmin()">LOGOUT</button>
+    </div>
+
+    <div class="container">
+        <h2>BADMINTON LIVE TRACKER</h2>
+        <div class="live-indicator"><span class="live-dot"></span>LIVE STORAGE ACTIVE</div>
+
+        <div class="info-box">
+            <div class="info-header">
+                <span class="info-title">INFORMASI TURNAMEN</span>
+                <button class="btn-luxe admin-only" style="height:18px; padding:2px 5px; font-size:0.55rem;" onclick="editBroadcastInfo()">EDIT</button>
+            </div>
+            <div class="info-content" id="broadcast-display">Belum ada pengumuman terbaru dari panitia turnamen.</div>
+        </div>
+
+        <div id="add-team-card" class="card admin-only">
+            <div style="display:flex; gap:6px; height: 34px; align-items: center;">
+                <input type="text" id="team-input" style="flex:1; padding:0 10px; height: 100%; border-radius:6px; background-color:#020b1e !important; color:white !important; border:1px solid rgba(255,255,255,0.15); font-family:'Rajdhani'; font-size: 0.9rem;" placeholder="Nama Tim Baru...">
+                <button class="btn-luxe" style="height: 100%; padding:0 12px;" onclick="addNewTeam()">TAMBAH</button>
+            </div>
+        </div>
+        <div id="lock-msg" class="lock-warning admin-only">SISTEM TERKUNCI: Kompetisi telah berjalan. Reset database jika ingin merombak tim kembali.</div>
+
+        <div class="card">
+            <h3 style="text-align:center; color:#ffffff !important; font-family:'Orbitron'; font-size:0.7rem; margin-top:0; letter-spacing: 1px; margin-bottom: 10px;">LEADERBOARD KLASEMEN</h3>
+            <table>
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <th style="width: 12%">POS</th>
+                        <th style="text-align:left; width: 44%">TIM</th>
+                        <th style="width: 11%">M</th>
+                        <th style="width: 11%">W</th>
+                        <th style="width: 11%">L</th>
+                        <th style="width: 11%">PTS</th>
+                    </tr>
+                </thead>
+                <tbody id="standings" style="text-align:center; color:#ffffff !important;"></tbody>
+            </table>
+        </div>
+
+        <div id="match-section" style="display:none;">
+            <h3 style="text-align:center; color:#ffffff !important; font-family:'Orbitron'; font-size:0.7rem; letter-spacing: 1px; margin-bottom: 10px;">JADWAL PERTANDINGAN</h3>
+            <div id="matches"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="sponsor-section">
+            <div class="sponsor-title">Sponsor Turnamen</div>
+            <div class="sponsor-grid" id="sponsor-container"></div>
+        </div>
+        <input type="file" id="sponsor-file-picker" style="display:none;" accept="image/*" onchange="handleSponsorImage(event)">
+
+        <div style="margin-top: 15px;">
+            <div style="display:flex; gap:8px; margin-bottom:8px;">
+                <button class="btn-luxe admin-only" style="flex:1; font-size:0.7rem;" onclick="copySummary()">SALIN TEKS</button>
+                <button class="btn-luxe" style="flex:1; font-size:0.7rem;" onclick="window.print()">CETAK PDF</button>
+            </div>
+            <button class="admin-only" style="background:transparent !important; color:var(--neon-red) !important; width:100%; padding:8px; border:none; cursor:pointer; font-size:0.65rem; font-family:'Orbitron'; font-weight:bold; opacity:0.4;" onclick="confirmReset()">[ RESET DATABASE ]</button>
+        </div>
+
+        <div class="footer-info">
+            Hubungi panitia:<br>
+            <a href="https://wa.me/6281360044697" target="_blank">Raja Salman (0813-6004-4697)</a>
+        </div>
+        <div class="copyright">HAK CIPTA © 2026 SRISP.</div>
+    </div>
+
+    <script>
+        const FIREBASE_URL = "https://badminton-live-acdd7-default-rtdb.asia-southeast1.firebasedatabase.app"; 
+        const DEFAULT_PASSWORD = "qwer";
+        const defaultTextSponsors = [
+            { main: "NIKE", sub: "" }, { main: "adidas", sub: "" },
+            { main: "99cellular", sub: "GADGET STORE" }, { main: "TENGKU BALEE", sub: "ES KRISTAL" },
+            { main: "YONEX", sub: "" }, { main: "PT HARAPAN INTI", sub: "SHIPPING" },
+            { main: "Telkom Indo", sub: "" }, { main: "Telkomsel", sub: "" }
+        ];
+
+        let appState = { teams: [], history: [], sponsorImages: ["", "", "", "", "", "", "", ""], broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen." };
+        let isAdminActive = false;
+        let activeSponsorSlot = null;
+        let blockCloudRead = false;
+
+        function getAdminPassword() { return localStorage.getItem('badmintonAdminPassword') || DEFAULT_PASSWORD; }
+        function changeAdminPassword() {
+            let currentPass = prompt("Masukkan PIN Lama:");
+            if (currentPass !== getAdminPassword()) { if (currentPass !== null) alert("PIN salah!"); return; }
+            let newPass = prompt("Masukkan PIN Baru:");
+            if (!newPass) { alert("PIN tidak boleh kosong!"); return; }
+            localStorage.setItem('badmintonAdminPassword', newPass);
+            alert("PIN Admin diperbarui!");
+        }
+
+        function editBroadcastInfo() {
+            if(!isAdminActive) return;
+            let currentInfo = appState.broadcastInfo || "";
+            let newInfo = prompt("Masukkan informasi turnamen:", currentInfo);
+            if (newInfo !== null) {
+                appState.broadcastInfo = newInfo.trim() === "" ? "Belum ada pengumuman terbaru dari panitia turnamen." : newInfo;
+                document.getElementById('broadcast-display').innerText = appState.broadcastInfo;
+                pushToFirebase();
+            }
+        }
+
+        async function pushToFirebase() {
+            if (!FIREBASE_URL) return;
+            blockCloudRead = true;
+            try {
+                await fetch(`${FIREBASE_URL}/tournament.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify(appState)
+                });
+            } catch (e) { console.error(e); }
+            setTimeout(() => { blockCloudRead = false; }, 2000);
+        }
+
+        function listenToFirebase() {
+            if (!FIREBASE_URL) return;
+            setInterval(async () => {
+                if (blockCloudRead) return;
+                try {
+                    let res = await fetch(`${FIREBASE_URL}/tournament.json`);
+                    let cloudData = await res.json();
+                    if (cloudData && !blockCloudRead) {
+                        appState.teams = cloudData.teams || [];
+                        appState.history = cloudData.history || [];
+                        appState.sponsorImages = cloudData.sponsorImages || ["", "", "", "", "", "", "", ""],
+                        appState.broadcastInfo = cloudData.broadcastInfo || "Belum ada pengumuman terbaru dari panitia turnamen.";
+                        document.getElementById('broadcast-display').innerText = appState.broadcastInfo;
+                        renderAll();
+                        renderSponsors();
+                    }
+                } catch(e) { console.error(e); }
+            }, 3000); 
+        }
+
+        function renderSponsors() {
+            const container = document.getElementById('sponsor-container');
+            container.innerHTML = appState.sponsorImages.map((imgData, idx) => {
+                if (imgData) {
+                    return `<div class="sponsor-item" onclick="triggerSponsorPicker(${idx})"><img src="${imgData}"></div>`;
+                } else {
+                    const def = defaultTextSponsors[idx];
+                    return `
+                        <div class="sponsor-item" onclick="triggerSponsorPicker(${idx})">
+                            <div class="sponsor-text-node">
+                                <span class="main-sp">${def.main}</span>
+                                ${def.sub ? `<span class="sub-sp">${def.sub}</span>` : ''}
+                            </div>
+                        </div>`;
+                }
+            }).join('');
+        }
+
+        function triggerSponsorPicker(idx) { if (!isAdminActive) return; activeSponsorSlot = idx; document.getElementById('sponsor-file-picker').click(); }
+        function handleSponsorImage(event) {
+            const file = event.target.files[0]; if (!file || activeSponsorSlot === null) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                appState.sponsorImages[activeSponsorSlot] = e.target.result;
+                renderSponsors(); pushToFirebase(); event.target.value = ""; 
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function requestAdmin() {
+            if (prompt("Masukkan PIN Kunci Admin:") === getAdminPassword()) { isAdminActive = true; applyViewMode(); renderAll(); } 
+            else { alert("PIN Salah!"); }
+        }
+        function logoutAdmin() { isAdminActive = false; applyViewMode(); renderAll(); }
+        function applyViewMode() { document.body.classList.toggle('admin-mode', isAdminActive); }
+
+        function addNewTeam() {
+            if (appState.history.some(h => h.type === 'WIN')) return alert("Skor sudah dicatat, kunci aktif!");
+            const input = document.getElementById("team-input"); let name = input.value.trim().toUpperCase();
+            if (!name) return;
+            if (appState.teams.includes(name)) return alert("Nama tim sudah ada!");
+            
+            blockCloudRead = true;
+            appState.teams.push(name); 
+            appState.history.push({ type: 'ADD_TEAM', data: name });
+            
+            input.value = ""; 
+            renderAll(); 
+            pushToFirebase();
+        }
+
+        function calculateStats() {
+            let stats = {}; appState.teams.forEach(t => { if(t) stats[t] = {m:0, w:0, l:0, p:0}; });
+            appState.history.forEach(action => {
+                if(action.type === 'WIN' && stats[action.data.winner] && stats[action.data.loser]) {
+                    stats[action.data.winner].m++; stats[action.data.winner].w++; stats[action.data.winner].p += 3;
+                    stats[action.data.loser].m++; stats[action.data.loser].l++;
+                }
+            });
+            return stats;
+        }
+
+        function renderAll() {
+            const stats = calculateStats(); const isStarted = appState.history.some(h => h.type === 'WIN');
+            document.getElementById('add-team-card').classList.toggle('locked', isStarted);
+            document.getElementById('lock-msg').style.display = isStarted ? 'block' : 'none';
+            let sorted = Object.keys(stats).sort((a,b) => (stats[b].p - stats[a].p) || (stats[b].w - stats[a].w));
+            const tbody = document.getElementById("standings");
+            
+            tbody.innerHTML = sorted.length === 0 ? `<tr><td colspan="6" style="padding:20px; opacity:0.3; font-family:'Orbitron'; color: #ffffff !important;">BELUM ADA TIM</td></tr>` : 
+                sorted.map((t, i) => `
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <td style="color:var(--neon-cyan); font-family:'Orbitron'">#${i+1}</td>
+                        <td style="text-align:left; font-weight:bold; color:#ffffff !important;">${t}</td>
+                        <td style="color:#ffffff !important;">${stats[t].m}</td><td style="color:var(--neon-cyan); font-weight:bold;">${stats[t].w}</td>
+                        <td style="color:var(--text-muted);">${stats[t].l}</td><td style="color:#ffffff !important; font-family:'Orbitron'; font-weight:bold;">${stats[t].p}</td>
+                    </tr>`).join("");
+
+            let t = [...appState.teams].filter(x => x !== null); 
+            if(t.length < 2) { document.getElementById("match-section").style.display = "none"; return; }
+            if(t.length % 2 !== 0) t.push(null);
+            
+            let sch = [];
+            for(let r=0; r<t.length-1; r++) {
+                for(let i=0; i<t.length/2; i++) { if(t[i] && t[t.length-1-i]) sch.push([t[i], t[t.length-1-i]]); }
+                t.splice(1,0,t.pop());
+            }
+
+            if(sch.length > 0) {
+                document.getElementById("match-section").style.display = "block";
+                document.getElementById("matches").innerHTML = sch.map((m, i) => {
+                    const res = appState.history.find(h => h.type === 'WIN' && h.data.matchId === i);
+                    return `
+                        <div class="match-box ${res ? 'completed' : ''}">
+                            <div class="match-main">
+                                <div class="team-col">
+                                    <div class="team-name">${m[0]}</div>
+                                    ${res ? (res.data.winner === m[0] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[0]}','${m[1]}')">WIN</button>`}
+                                </div>
+                                <div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:'Orbitron';">VS</div>
+                                <div class="team-col">
+                                    <div class="team-name">${m[1]}</div>
+                                    ${res ? (res.data.winner === m[1] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[1]}','${m[0]}')">WIN</button>`}
+                                </div>
+                            </div>
+                        </div>`;
+                }).join("");
+            } else { document.getElementById("match-section").style.display = "none"; }
+        }
+
+        function recordWin(m, w, l) { 
+            if (appState.history.find(h => h.type === 'WIN' && h.data.matchId === m)) return;
+            blockCloudRead = true;
+            appState.history.push({ type: 'WIN', data: { matchId: m, winner: w, loser: l } });
+            renderAll(); pushToFirebase();
+        }
+
+        function undo() { 
+            if(appState.history.length > 0) { 
+                blockCloudRead = true;
+                let a = appState.history.pop(); 
+                if(a.type==='ADD_TEAM') appState.teams.pop(); 
+                renderAll(); pushToFirebase(); 
+            } 
+        }
+        
+        async function confirmReset() { 
+            if(confirm("Hapus total seluruh database?")) { 
+                blockCloudRead = true;
+                appState = { teams: [], history: [], sponsorImages: ["", "", "", "", "", "", "", ""], broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen." };
+                renderAll(); renderSponsors(); await pushToFirebase();
+                alert("Database Berhasil Dikosongkan!");
+            } 
+        }
+
+        function copySummary() {
+            const stats = calculateStats(); let sorted = Object.keys(stats).sort((a,b) => (stats[b].p - stats[a].p) || (stats[b].w - stats[a].w));
+            if(sorted.length === 0) return alert("Belum ada data.");
+            let text = "🏆 LIVE KLASEMEN RAJA SALMAN CUP 🏆\n\n";
+            sorted.forEach((t, i) => { text += `${i+1}. ${t} : ${stats[t].w}W / ${stats[t].l}L (${stats[t].p} Pts)\n`; });
+            const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            alert("Berhasil disalin!");
+        }
+
+        listenToFirebase();
+        applyViewMode(); 
+        renderAll();
+        renderSponsors();
+    </script>
+</body>
+</html>
