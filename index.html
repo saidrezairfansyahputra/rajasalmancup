@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Raja Salman CUP Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>Live Tournament Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=400;700&family=Rajdhani:wght=500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-cyan: #00e5ff;
             --neon-red: #ff5252;
+            --neon-orange: #ff9100;
             --bg-dark: #020b1e;
             --card-bg: #06193e;
             --text-muted: #7388a7;
@@ -41,13 +42,21 @@
             overflow-x: hidden;
         }
 
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0 5px 0;
+        }
+
         h2 { 
             font-family: 'Orbitron', sans-serif;
             text-align: center; 
             color: #ffffff !important; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
-            margin: 20px 0 12px 0; 
+            margin: 0; 
             font-size: 1.15rem;
             text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
         }
@@ -99,7 +108,7 @@
         }
         
         .info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .info-title { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--neon-cyan) !important; font-weight: bold; }
+        .info-title { font-family: 'Orbitron', sans-serif; font-size: 0.70rem; color: var(--neon-cyan) !important; font-weight: bold; }
         .info-content { font-size: 0.9rem; line-height: 1.3; color: #e2ebf8 !important; white-space: pre-wrap; }
 
         table { 
@@ -123,6 +132,7 @@
             background-color: #0b224a !important; padding: 12px; margin-bottom: 8px; border-radius: 8px; 
             border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid var(--text-muted) !important; width: 100%;
         }
+        .match-box.live-match { border-left-color: var(--neon-orange) !important; background-color: #1a1711 !important; border-color: rgba(255, 145, 0, 0.3); }
         .match-box.completed { border-left-color: var(--neon-cyan) !important; background-color: #052c54 !important; }
         .match-main { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
         .team-col { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden; }
@@ -132,8 +142,19 @@
         .status-tag.win { color: var(--neon-cyan) !important; }
         .status-tag.lose { color: var(--neon-red) !important; opacity: 0.6; }
         
+        .live-playing-tag {
+            color: var(--neon-red) !important; font-family: 'Orbitron'; font-size: 0.65rem; font-weight: bold;
+            animation: pulse-red 1s infinite; margin-top: 2px;
+        }
+        @keyframes pulse-red { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
         .win-btn-small { 
             background-color: #09315c !important; color: var(--neon-cyan) !important; border: 1px solid rgba(0, 229, 255, 0.4); 
+            padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Orbitron';
+            width: 100%; max-width: 70px; cursor: pointer; height: 22px; margin-top: 2px;
+        }
+        .live-btn-small {
+            background-color: #2e1c05 !important; color: var(--neon-orange) !important; border: 1px solid rgba(255, 145, 0, 0.4); 
             padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Orbitron';
             width: 100%; max-width: 70px; cursor: pointer; height: 22px; margin-top: 2px;
         }
@@ -151,7 +172,12 @@
         .sponsor-item {
             background-color: #05183b !important; border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 6px; padding: 8px 2px; display: flex; align-items: center; justify-content: center; min-height: 55px;
+            cursor: default; transition: transform 0.2s;
         }
+        .sponsor-item.has-link { cursor: pointer; }
+        .sponsor-item.has-link:hover { transform: scale(1.03); border-color: var(--neon-cyan); }
+        body.admin-mode .sponsor-item { cursor: pointer !important; }
+        body.admin-mode .sponsor-item:hover { border-color: var(--neon-orange); }
         .sponsor-item img { max-width: 100%; max-height: 40px; object-fit: contain; }
         .sponsor-text-node { display: flex; flex-direction: column; align-items: center; }
         .sponsor-text-node .main-sp { font-family: 'Orbitron', sans-serif; font-weight: bold; font-size: 0.75rem; color: #ffffff !important; }
@@ -173,6 +199,13 @@
         }
         .live-dot { width: 5px; height: 5px; background-color: #00e5ff !important; border-radius: 50%; animation: blink 1.2s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .reset-box {
+            display: flex; flex-direction: column; gap: 6px; margin-top: 10px; width: 100%;
+        }
+        .reset-btn-sub {
+            background: transparent !important; border: none; cursor: pointer; font-size: 0.65rem; font-family: 'Orbitron'; font-weight: bold; text-align: center; padding: 4px 0;
+        }
     </style>
 </head>
 <body>
@@ -185,7 +218,11 @@
     </div>
 
     <div class="container">
-        <h2>BADMINTON LIVE TRACKER</h2>
+        <div class="header-container">
+            <h2 id="main-title-display">BADMINTON LIVE TRACKER</h2>
+            <button class="btn-luxe admin-only" style="height:18px; padding:2px 5px; font-size:0.55rem;" onclick="editMainTitle()">EDIT</button>
+        </div>
+        
         <div class="live-indicator"><span class="live-dot"></span>LIVE STORAGE ACTIVE</div>
 
         <div class="info-box">
@@ -202,7 +239,7 @@
                 <button class="btn-luxe" style="height: 100%; padding:0 12px;" onclick="addNewTeam()">TAMBAH</button>
             </div>
         </div>
-        <div id="lock-msg" class="lock-warning admin-only">SISTEM TERKUNCI: Kompetisi telah berjalan. Reset database jika ingin merombak tim kembali.</div>
+        <div id="lock-msg" class="lock-warning admin-only">SISTEM TERKUNCI: Kompetisi telah berjalan. Lakukan Reset Data Turnamen jika ingin merombak susunan tim kembali.</div>
 
         <div class="card">
             <h3 style="text-align:center; color:#ffffff !important; font-family:'Orbitron'; font-size:0.7rem; margin-top:0; letter-spacing: 1px; margin-bottom: 10px;">LEADERBOARD KLASEMEN</h3>
@@ -239,12 +276,19 @@
                 <button class="btn-luxe admin-only" style="flex:1; font-size:0.7rem;" onclick="copySummary()">SALIN TEKS</button>
                 <button class="btn-luxe" style="flex:1; font-size:0.7rem;" onclick="window.print()">CETAK PDF</button>
             </div>
-            <button class="admin-only" style="background:transparent !important; color:var(--neon-red) !important; width:100%; padding:8px; border:none; cursor:pointer; font-size:0.65rem; font-family:'Orbitron'; font-weight:bold; opacity:0.4;" onclick="confirmReset()">[ RESET DATABASE ]</button>
+            
+            <div class="reset-box admin-only">
+                <button class="reset-btn-sub" style="color: var(--neon-orange) !important;" onclick="confirmTournamentReset()">[ RESET DATA TURNAMEN ]</button>
+                <button class="reset-btn-sub" style="color: var(--neon-red) !important; opacity: 0.35;" onclick="confirmTotalReset()">[ RESET TOTAL DATABASE ]</button>
+            </div>
         </div>
 
         <div class="footer-info">
             Hubungi panitia:<br>
-            <a href="https://wa.me/6281360044697" target="_blank">Raja Salman (0813-6004-4697)</a>
+            <span id="panitia-wrapper">
+                <a id="panitia-link" href="https://wa.me/6281360044697" target="_blank">Raja Salman (0813-6004-4697)</a>
+            </span>
+            <button class="btn-luxe admin-only" style="height:18px; padding:2px 5px; font-size:0.55rem; margin-left:5px; vertical-align:middle;" onclick="editPanitiaContact()">EDIT PANITIA</button>
         </div>
         <div class="copyright">HAK CIPTA © 2026 SRISP.</div>
     </div>
@@ -259,7 +303,16 @@
             { main: "Telkom Indo", sub: "" }, { main: "Telkomsel", sub: "" }
         ];
 
-        let appState = { teams: [], history: [], sponsorImages: ["", "", "", "", "", "", "", ""], broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen." };
+        let appState = { 
+            mainTitle: "BADMINTON LIVE TRACKER", 
+            teams: [], 
+            history: [], 
+            sponsorImages: ["", "", "", "", "", "", "", ""], 
+            sponsorLinks: ["", "", "", "", "", "", "", ""], 
+            broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen.",
+            panitiaName: "Raja Salman",
+            panitiaPhone: "081360044697"
+        };
         let isAdminActive = false;
         let activeSponsorSlot = null;
         let blockCloudRead = false;
@@ -274,6 +327,17 @@
             alert("PIN Admin diperbarui!");
         }
 
+        function editMainTitle() {
+            if(!isAdminActive) return;
+            let currentTitle = appState.mainTitle || "BADMINTON LIVE TRACKER";
+            let newTitle = prompt("Masukkan Judul Utama Turnamen Baru:", currentTitle);
+            if (newTitle !== null) {
+                appState.mainTitle = newTitle.trim() === "" ? "BADMINTON LIVE TRACKER" : newTitle.toUpperCase();
+                document.getElementById('main-title-display').innerText = appState.mainTitle;
+                pushToFirebase();
+            }
+        }
+
         function editBroadcastInfo() {
             if(!isAdminActive) return;
             let currentInfo = appState.broadcastInfo || "";
@@ -283,6 +347,47 @@
                 document.getElementById('broadcast-display').innerText = appState.broadcastInfo;
                 pushToFirebase();
             }
+        }
+
+        function editPanitiaContact() {
+            if(!isAdminActive) return;
+            let currentName = appState.panitiaName || "Raja Salman";
+            let currentPhone = appState.panitiaPhone || "081360044697";
+            
+            let newName = prompt("Masukkan NAMA PANITIA baru:", currentName);
+            if(newName === null) return;
+            
+            let newPhone = prompt("Masukkan NOMOR WA PANITIA baru:\n(Contoh: 081360044697 atau 6281360044697)", currentPhone);
+            if(newPhone === null) return;
+            
+            let cleanPhone = newPhone.replace(/[^0-9]/g, "");
+            if(cleanPhone.startsWith("0")) {
+                cleanPhone = "62" + cleanPhone.slice(1);
+            }
+            
+            appState.panitiaName = newName.trim() || "Panitia";
+            appState.panitiaPhone = cleanPhone || "6281360044697";
+            
+            renderPanitiaContact();
+            pushToFirebase();
+        }
+
+        function renderPanitiaContact() {
+            let name = appState.panitiaName || "Raja Salman";
+            let phone = appState.panitiaPhone || "6281360044697";
+            
+            let formattedDisplayPhone = phone;
+            if(phone.startsWith("62")) {
+                formattedDisplayPhone = "0" + phone.slice(2);
+            }
+            // Format tampilan spasi agar rapi (ex: 0813-6004-4697)
+            if(formattedDisplayPhone.length >= 11) {
+                formattedDisplayPhone = formattedDisplayPhone.replace(/(\d{4})(\d{4})(\d+)/, "$1-$2-$3");
+            }
+
+            const linkEl = document.getElementById("panitia-link");
+            linkEl.href = `https://wa.me/${phone}`;
+            linkEl.innerText = `${name} (${formattedDisplayPhone})`;
         }
 
         async function pushToFirebase() {
@@ -305,13 +410,20 @@
                     let res = await fetch(`${FIREBASE_URL}/tournament.json`);
                     let cloudData = await res.json();
                     if (cloudData && !blockCloudRead) {
+                        appState.mainTitle = cloudData.mainTitle || "BADMINTON LIVE TRACKER";
                         appState.teams = cloudData.teams || [];
                         appState.history = cloudData.history || [];
-                        appState.sponsorImages = cloudData.sponsorImages || ["", "", "", "", "", "", "", ""],
+                        appState.sponsorImages = cloudData.sponsorImages || ["", "", "", "", "", "", "", ""];
+                        appState.sponsorLinks = cloudData.sponsorLinks || ["", "", "", "", "", "", "", ""];
                         appState.broadcastInfo = cloudData.broadcastInfo || "Belum ada pengumuman terbaru dari panitia turnamen.";
+                        appState.panitiaName = cloudData.panitiaName || "Raja Salman";
+                        appState.panitiaPhone = cloudData.panitiaPhone || "6281360044697";
+                        
+                        document.getElementById('main-title-display').innerText = appState.mainTitle;
                         document.getElementById('broadcast-display').innerText = appState.broadcastInfo;
                         renderAll();
                         renderSponsors();
+                        renderPanitiaContact();
                     }
                 } catch(e) { console.error(e); }
             }, 3000); 
@@ -320,12 +432,15 @@
         function renderSponsors() {
             const container = document.getElementById('sponsor-container');
             container.innerHTML = appState.sponsorImages.map((imgData, idx) => {
+                const mapLink = appState.sponsorLinks && appState.sponsorLinks[idx] ? appState.sponsorLinks[idx] : "";
+                const hasLinkClass = mapLink ? "has-link" : "";
+                
                 if (imgData) {
-                    return `<div class="sponsor-item" onclick="triggerSponsorPicker(${idx})"><img src="${imgData}"></div>`;
+                    return `<div class="sponsor-item ${hasLinkClass}" onclick="handleSponsorClick(${idx})"><img src="${imgData}"></div>`;
                 } else {
                     const def = defaultTextSponsors[idx];
                     return `
-                        <div class="sponsor-item" onclick="triggerSponsorPicker(${idx})">
+                        <div class="sponsor-item ${hasLinkClass}" onclick="handleSponsorClick(${idx})">
                             <div class="sponsor-text-node">
                                 <span class="main-sp">${def.main}</span>
                                 ${def.sub ? `<span class="sub-sp">${def.sub}</span>` : ''}
@@ -335,7 +450,31 @@
             }).join('');
         }
 
-        function triggerSponsorPicker(idx) { if (!isAdminActive) return; activeSponsorSlot = idx; document.getElementById('sponsor-file-picker').click(); }
+        function handleSponsorClick(idx) {
+            if (isAdminActive) {
+                activeSponsorSlot = idx;
+                let currentLink = appState.sponsorLinks && appState.sponsorLinks[idx] ? appState.sponsorLinks[idx] : "";
+                let newLink = prompt("Masukkan Link Google Maps untuk Sponsor ini:\n(Kosongkan jika tidak ada, atau klik Cancel untuk lewati)", currentLink);
+                
+                if (newLink !== null) {
+                    if (!appState.sponsorLinks) appState.sponsorLinks = ["", "", "", "", "", "", "", ""];
+                    appState.sponsorLinks[idx] = newLink.trim();
+                }
+                
+                if (confirm("Apakah Anda juga ingin mengubah / mengunggah GAMBAR LOGO untuk slot sponsor ini?")) {
+                    document.getElementById('sponsor-file-picker').click();
+                } else {
+                    renderSponsors();
+                    pushToFirebase();
+                }
+            } else {
+                let targetMap = appState.sponsorLinks && appState.sponsorLinks[idx] ? appState.sponsorLinks[idx] : "";
+                if (targetMap) {
+                    window.open(targetMap, '_blank');
+                }
+            }
+        }
+
         function handleSponsorImage(event) {
             const file = event.target.files[0]; if (!file || activeSponsorSlot === null) return;
             const reader = new FileReader();
@@ -380,9 +519,11 @@
         }
 
         function renderAll() {
-            const stats = calculateStats(); const isStarted = appState.history.some(h => h.type === 'WIN');
+            const stats = calculateStats(); 
+            const isStarted = appState.history.some(h => h.type === 'WIN');
             document.getElementById('add-team-card').classList.toggle('locked', isStarted);
             document.getElementById('lock-msg').style.display = isStarted ? 'block' : 'none';
+            
             let sorted = Object.keys(stats).sort((a,b) => (stats[b].p - stats[a].p) || (stats[b].w - stats[a].w));
             const tbody = document.getElementById("standings");
             
@@ -408,18 +549,30 @@
             if(sch.length > 0) {
                 document.getElementById("match-section").style.display = "block";
                 document.getElementById("matches").innerHTML = sch.map((m, i) => {
-                    const res = appState.history.find(h => h.type === 'WIN' && h.data.matchId === i);
+                    const resWin = appState.history.filter(h => h.type === 'WIN').find(h => h.data.matchId === i);
+                    const resLive = appState.history.filter(h => h.type === 'START_LIVE').find(h => h.data.matchId === i);
+                    
+                    let matchClass = "";
+                    if (resWin) matchClass = "completed";
+                    else if (resLive) matchClass = "live-match";
+
                     return `
-                        <div class="match-box ${res ? 'completed' : ''}">
+                        <div class="match-box ${matchClass}">
                             <div class="match-main">
                                 <div class="team-col">
                                     <div class="team-name">${m[0]}</div>
-                                    ${res ? (res.data.winner === m[0] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[0]}','${m[1]}')">WIN</button>`}
+                                    ${resWin ? (resWin.data.winner === m[0] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : 
+                                      (resLive ? `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[0]}','${m[1]}')">WIN</button>` : '')}
                                 </div>
-                                <div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:'Orbitron';">VS</div>
+                                <div style="text-align:center;">
+                                    ${resWin ? '<div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:\'Orbitron\';">VS</div>' : 
+                                      (resLive ? '<div class="live-playing-tag">🔴 LIVE</div>' : 
+                                      `<div><div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:\'Orbitron\'; margin-bottom:4px;">VS</div><button class="live-btn-small admin-only" onclick="startLiveMatch(${i})">LIVE</button></div>`)}
+                                </div>
                                 <div class="team-col">
                                     <div class="team-name">${m[1]}</div>
-                                    ${res ? (res.data.winner === m[1] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[1]}','${m[0]}')">WIN</button>`}
+                                    ${resWin ? (resWin.data.winner === m[1] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : 
+                                      (resLive ? `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[1]}','${m[0]}')">WIN</button>` : '')}
                                 </div>
                             </div>
                         </div>`;
@@ -427,9 +580,15 @@
             } else { document.getElementById("match-section").style.display = "none"; }
         }
 
-        function recordWin(m, w, l) { 
-            if (appState.history.find(h => h.type === 'WIN' && h.data.matchId === m)) return;
+        function startLiveMatch(matchId) {
             blockCloudRead = true;
+            appState.history.push({ type: 'START_LIVE', data: { matchId: matchId } });
+            renderAll(); pushToFirebase();
+        }
+
+        function recordWin(m, w, l) { 
+            blockCloudRead = true;
+            appState.history = appState.history.filter(h => !(h.type === 'START_LIVE' && h.data.matchId === m));
             appState.history.push({ type: 'WIN', data: { matchId: m, winner: w, loser: l } });
             renderAll(); pushToFirebase();
         }
@@ -443,19 +602,50 @@
             } 
         }
         
-        async function confirmReset() { 
-            if(confirm("Hapus total seluruh database?")) { 
-                blockCloudRead = true;
-                appState = { teams: [], history: [], sponsorImages: ["", "", "", "", "", "", "", ""], broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen." };
-                renderAll(); renderSponsors(); await pushToFirebase();
-                alert("Database Berhasil Dikosongkan!");
+        async function confirmTournamentReset() { 
+            if(confirm("⚠️ PERINGATAN:\nSemua data nama pemain, skor pertandingan, dan riwayat klasemen akan DIHAPUS dan HILANG dari sistem!\n\n(INFO: Gambar LOGO SPONSOR Anda tetap AMAN disimpan).\n\nApakah Anda yakin?")) { 
+                let inputPin = prompt("Masukkan PIN Admin untuk konfirmasi penghapusan data pemain:");
+                if (inputPin === getAdminPassword()) {
+                    blockCloudRead = true;
+                    appState.mainTitle = "BADMINTON LIVE TRACKER";
+                    appState.teams = [];
+                    appState.history = [];
+                    appState.broadcastInfo = "Belum ada pengumuman terbaru dari panitia turnamen.";
+                    renderAll(); await pushToFirebase();
+                    alert("Data turnamen berhasil dibersihkan! Sponsor tetap aman.");
+                } else {
+                    if (inputPin !== null) alert("PIN Salah! Penghapusan dibatalkan.");
+                }
+            } 
+        }
+
+        async function confirmTotalReset() { 
+            if(confirm("🚨 PERINGATAN KERAS:\nSemua data pemain, riwayat skor, klasemen, DAN seluruh gambar LOGO SPONSOR & LINK MAPS akan DIHAPUS TOTAL dari database!\n\nApakah Anda benar-benar yakin?")) { 
+                let inputPin = prompt("Masukkan PIN Admin untuk konfirmasi RESET TOTAL:");
+                if (inputPin === getAdminPassword()) {
+                    blockCloudRead = true;
+                    appState = { 
+                        mainTitle: "BADMINTON LIVE TRACKER", 
+                        teams: [], 
+                        history: [], 
+                        sponsorImages: ["", "", "", "", "", "", "", ""], 
+                        sponsorLinks: ["", "", "", "", "", "", "", ""], 
+                        broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen.",
+                        panitiaName: "Raja Salman",
+                        panitiaPhone: "6281360044697"
+                    };
+                    renderAll(); renderSponsors(); renderPanitiaContact(); await pushToFirebase();
+                    alert("Seluruh database telah dikosongkan total!");
+                } else {
+                    if (inputPin !== null) alert("PIN Salah! Reset total dibatalkan.");
+                }
             } 
         }
 
         function copySummary() {
             const stats = calculateStats(); let sorted = Object.keys(stats).sort((a,b) => (stats[b].p - stats[a].p) || (stats[b].w - stats[a].w));
             if(sorted.length === 0) return alert("Belum ada data.");
-            let text = "🏆 LIVE KLASEMEN RAJA SALMAN CUP 🏆\n\n";
+            let text = `🏆 LIVE KLASEMEN ${appState.mainTitle} 🏆\n\n`;
             sorted.forEach((t, i) => { text += `${i+1}. ${t} : ${stats[t].w}W / ${stats[t].l}L (${stats[t].p} Pts)\n`; });
             const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
             alert("Berhasil disalin!");
@@ -465,6 +655,7 @@
         applyViewMode(); 
         renderAll();
         renderSponsors();
+        renderPanitiaContact();
     </script>
 </body>
 </html>
