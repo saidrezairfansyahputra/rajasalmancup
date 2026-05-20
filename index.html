@@ -6,13 +6,104 @@
     <title>Live Tournament Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=400;700&family=Rajdhani:wght=500;700&display=swap" rel="stylesheet">
     <style>
+        /* BASE THEME (CYBERPUNK BLUE - DEFAULT) */
         :root {
+            --bg-main: #020b1e;
+            --card-bg: #06193e;
+            --card-border: rgba(0, 229, 255, 0.15);
+            --info-box-bg: #09265c;
+            --info-box-border: rgba(0, 229, 255, 0.25);
             --neon-cyan: #00e5ff;
             --neon-red: #ff5252;
             --neon-orange: #ff9100;
-            --bg-dark: #020b1e;
-            --card-bg: #06193e;
+            --text-main: #e2ebf8;
             --text-muted: #7388a7;
+            --box-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+            --backdrop: none;
+            --body-bg-custom: #020b1e;
+            --btn-candy-shadow: none;
+            --print-bg: #ffffff; /* Warna cetak default */
+            --print-text: #000000;
+        }
+
+        /* THEME 2: KEMERDEKAAN (MODIFIED TO CANDY GLASS MERAH FERRARI LIME WHITE) */
+        body.theme-kemerdekaan {
+            --bg-main: transparent;
+            --card-bg: rgba(255, 8, 0, 0.08);
+            --card-border: rgba(255, 255, 255, 0.35);
+            --info-box-bg: rgba(255, 255, 255, 0.08);
+            --info-box-border: rgba(255, 8, 0, 0.4);
+            --neon-cyan: #ffffff;
+            --neon-red: #ff2a20;
+            --neon-orange: #ffaa00;
+            --text-main: #ffffff;
+            --text-muted: #ffe3e2;
+            --box-shadow: 0 10px 40px 0 rgba(255, 8, 0, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.1);
+            --backdrop: blur(25px) cubic-bezier(0.4, 0, 0.2, 1);
+            --body-bg-custom: linear-gradient(135deg, #1f0302, #4a0604, #120101);
+            --btn-candy-shadow: candy;
+            --print-bg: #fff5f5; /* Kertas Merah Pudar */
+            --print-text: #4a0604;
+        }
+
+        /* THEME 3: GALAKSI (TEMBUS PANDANG KACA PURPLE NEBULA) */
+        body.theme-galaksi {
+            --bg-main: transparent;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(224, 64, 251, 0.25);
+            --info-box-bg: rgba(39, 14, 74, 0.3);
+            --info-box-border: rgba(224, 64, 251, 0.35);
+            --neon-cyan: #e040fb;
+            --neon-red: #ff1744;
+            --neon-orange: #00e5ff;
+            --text-main: #f1e8fc;
+            --text-muted: #bda2db;
+            --box-shadow: 0 8px 32px 0 rgba(111, 0, 255, 0.2);
+            --backdrop: blur(15px) saturate(150%);
+            --body-bg-custom: linear-gradient(135deg, #0b0214, #1c053a, #07010e);
+            --btn-candy-shadow: none;
+            --print-bg: #faf5ff; /* Kertas Ungu Pudar */
+            --print-text: #1c053a;
+        }
+
+        /* THEME 4: SPORTY GLASSMORPHISM (TEMBUS PANDANG KACA DEEP EMERALD OCEAN) */
+        body.theme-glass {
+            --bg-main: transparent;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.15);
+            --info-box-bg: rgba(255, 255, 255, 0.12);
+            --info-box-border: rgba(255, 255, 255, 0.25);
+            --neon-cyan: #00ff88;
+            --neon-red: #ff4757;
+            --neon-orange: #ffa502;
+            --text-main: #ffffff;
+            --text-muted: #cbd5e1;
+            --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --backdrop: blur(15px);
+            --body-bg-custom: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --btn-candy-shadow: none;
+            --print-bg: #f0fdf4; /* Kertas Hijau/Toska Pudar */
+            --print-text: #0f2027;
+        }
+
+        /* THEME 5: LUXURY CANDY GLASS (TEMBUS PANDANG PALING MEWAH & TOMBOL CANDY GLOSSY) */
+        body.theme-luxury {
+            --bg-main: transparent;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 215, 0, 0.25);
+            --info-box-bg: rgba(255, 179, 0, 0.1);
+            --info-box-border: rgba(255, 215, 0, 0.35);
+            --neon-cyan: #ffd700;
+            --neon-red: #ff3366;
+            --neon-orange: #ff9100;
+            --text-main: #ffffff;
+            --text-muted: #f3e5f5;
+            --box-shadow: 0 10px 40px 0 rgba(255, 215, 0, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.05);
+            --backdrop: blur(25px) cubic-bezier(0.4, 0, 0.2, 1);
+            --body-bg-custom: linear-gradient(135deg, #0d001a, #230038, #120024);
+            --btn-candy-shadow: candy;
+            --print-bg: #fffdf5; /* Kertas Emas/Kuning Pudar */
+            --print-text: #230038;
         }
 
         html, body { 
@@ -21,8 +112,8 @@
             width: 100%;
             max-width: 100vw;
             overflow-x: hidden;
-            background-color: #020b1e !important;
-            color: #e2ebf8;
+            background: var(--body-bg-custom) !important;
+            color: var(--text-main);
             font-family: 'Rajdhani', sans-serif;
             min-height: 100vh;
         }
@@ -33,6 +124,44 @@
             background-color: transparent;
         }
 
+        /* STYLE FOR PRELOADER ANIMATION */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #020b1e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loader-spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(0, 229, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #00e5ff;
+            animation: spin-loader 1s linear infinite;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+        .loader-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: #00e5ff;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            animation: pulse-loader 1.5s ease-in-out infinite;
+        }
+        @keyframes spin-loader {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes pulse-loader {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(0, 229, 255, 0.6); }
+        }
+
         .container { 
             width: 100%;
             max-width: 100vw; 
@@ -40,25 +169,64 @@
             margin: 0 auto;
             padding-bottom: 85px; 
             overflow-x: hidden;
+            position: relative;
         }
 
+        /* HEADER POSISI KIRI KANAN */
         .header-container {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+            margin: 20px 0 15px 0;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        /* LOGO UKURAN BESAR */
+        .logo-wrapper-box {
+            width: 130px;
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            margin: 20px 0 5px 0;
+            position: relative;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        body.admin-mode .logo-wrapper-box {
+            cursor: pointer;
+            border: 2px dashed var(--neon-cyan);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02) !important;
+        }
+
+        .logo-wrapper-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .title-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+            flex: 1;
         }
 
         h2 { 
             font-family: 'Orbitron', sans-serif;
-            text-align: center; 
+            text-align: left; 
             color: #ffffff !important; 
             text-transform: uppercase; 
             letter-spacing: 1px; 
             margin: 0; 
-            font-size: 1.15rem;
-            text-shadow: 0 0 8px rgba(0, 229, 255, 0.4);
+            font-size: 1.5rem;
+            text-shadow: var(--box-shadow);
+            line-height: 1.2;
         }
 
         .bottom-nav { 
@@ -67,7 +235,8 @@
             left: 0; 
             width: 100%; 
             max-width: 100vw;
-            background-color: #06193e !important; 
+            background-color: var(--card-bg) !important; 
+            backdrop-filter: var(--backdrop);
             border-top: 2px solid var(--neon-cyan);
             display: flex; 
             justify-content: space-around; 
@@ -76,15 +245,38 @@
             z-index: 9999;
         }
 
+        body.theme-luxury .bottom-nav, body.theme-kemerdekaan .bottom-nav {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            bottom: auto;
+            left: auto;
+            width: auto;
+            background: transparent !important;
+            backdrop-filter: none;
+            border-top: none;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            padding: 0;
+            z-index: 9999;
+        }
+
+        body.theme-luxury .container, body.theme-kemerdekaan .container {
+            padding-bottom: 20px;
+        }
+
         .btn-luxe {
-            border: 1px solid rgba(0, 229, 255, 0.4); border-radius: 6px;
+            border: 1px solid var(--card-border); border-radius: 6px;
             font-family: 'Rajdhani', sans-serif; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease;
+            cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex; align-items: center; justify-content: center;
             font-size: 0.75rem; color: #ffffff !important;
-            background-color: #0d234d !important;
+            background-color: rgba(255,255,255,0.05) !important;
             text-transform: uppercase; letter-spacing: 0.5px;
             padding: 6px 12px; height: 30px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-luxe:hover {
@@ -93,23 +285,61 @@
             color: #000000 !important;
         }
 
+        body.theme-luxury .btn-luxe, body.theme-kemerdekaan .btn-luxe {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.2) 100%) !important;
+            border-radius: 30px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            font-size: 0.65rem;
+            padding: 4px 10px;
+            height: 26px;
+        }
+
+        body.theme-luxury .btn-luxe {
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 0 5px rgba(255, 215, 0, 0.1);
+        }
+        body.theme-luxury .btn-luxe:hover {
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.4) 0%, rgba(255, 179, 0, 0.6) 100%) !important;
+            border-color: #ffd700;
+            color: #ffffff !important;
+            box-shadow: 0 6px 15px rgba(255, 215, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+            transform: translateY(-1px);
+        }
+
+        body.theme-kemerdekaan .btn-luxe {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 0 5px rgba(255, 8, 0, 0.2);
+        }
+        body.theme-kemerdekaan .btn-luxe:hover {
+            background: linear-gradient(180deg, rgba(255, 8, 0, 0.5) 0%, rgba(255, 40, 32, 0.7) 100%) !important;
+            border-color: #ffffff;
+            color: #ffffff !important;
+            box-shadow: 0 6px 15px rgba(255, 8, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+            transform: translateY(-1px);
+        }
+
         .card { 
-            background-color: #06193e !important; border-radius: 10px; padding: 12px; 
-            margin-bottom: 12px; border: 1px solid rgba(0, 229, 255, 0.15); 
+            background-color: var(--card-bg) !important; 
+            backdrop-filter: var(--backdrop);
+            border-radius: 10px; padding: 12px; 
+            margin-bottom: 12px; border: 1px solid var(--card-border); 
             width: 100%;
             max-width: 100%;
+            box-shadow: var(--box-shadow);
         }
 
         .info-box {
-            background-color: #09265c !important;
-            border: 1px solid rgba(0, 229, 255, 0.25);
+            background-color: var(--info-box-bg) !important;
+            backdrop-filter: var(--backdrop);
+            border: 1px solid var(--info-box-border);
             border-left: 4px solid var(--neon-cyan) !important;
             border-radius: 6px; padding: 12px; margin-bottom: 12px; width: 100%;
         }
         
         .info-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .info-title { font-family: 'Orbitron', sans-serif; font-size: 0.70rem; color: var(--neon-cyan) !important; font-weight: bold; }
-        .info-content { font-size: 0.9rem; line-height: 1.3; color: #e2ebf8 !important; white-space: pre-wrap; }
+        .info-content { font-size: 0.9rem; line-height: 1.3; color: var(--text-main) !important; white-space: pre-wrap; }
 
         table { 
             width: 100%; 
@@ -129,11 +359,11 @@
         th { font-size: 0.65rem; color: var(--text-muted); font-family: 'Orbitron'; }
 
         .match-box { 
-            background-color: #0b224a !important; padding: 12px; margin-bottom: 8px; border-radius: 8px; 
-            border: 1px solid rgba(255, 255, 255, 0.05); border-left: 4px solid var(--text-muted) !important; width: 100%;
+            background-color: rgba(255,255,255,0.03) !important; padding: 12px; margin-bottom: 8px; border-radius: 8px; 
+            border: 1px solid var(--card-border); border-left: 4px solid var(--text-muted) !important; width: 100%;
         }
-        .match-box.live-match { border-left-color: var(--neon-orange) !important; background-color: #1a1711 !important; border-color: rgba(255, 145, 0, 0.3); }
-        .match-box.completed { border-left-color: var(--neon-cyan) !important; background-color: #052c54 !important; }
+        .match-box.live-match { border-left-color: var(--neon-orange) !important; background-color: rgba(255, 145, 0, 0.08) !important; border-color: rgba(255, 145, 0, 0.3); }
+        .match-box.completed { border-left-color: var(--neon-cyan) !important; background-color: rgba(0, 229, 255, 0.05) !important; }
         .match-main { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
         .team-col { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden; }
         .team-name { font-size: 0.85rem; font-weight: bold; margin-bottom: 4px; color: #ffffff !important; width: 100%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
@@ -141,6 +371,7 @@
         .status-tag { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; font-weight: bold; margin-top: 2px; }
         .status-tag.win { color: var(--neon-cyan) !important; }
         .status-tag.lose { color: var(--neon-red) !important; opacity: 0.6; }
+        .status-tag.upcoming { color: var(--text-muted) !important; font-size: 0.65rem; font-weight: bold; margin-top: 2px; }
         
         .live-playing-tag {
             color: var(--neon-red) !important; font-family: 'Orbitron'; font-size: 0.65rem; font-weight: bold;
@@ -148,15 +379,41 @@
         }
         @keyframes pulse-red { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
+        .timer-realtime-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.72rem;
+            color: var(--neon-orange) !important;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+        .match-box.completed .timer-realtime-text {
+            color: var(--text-muted) !important;
+            font-size: 0.65rem;
+        }
+
         .win-btn-small { 
-            background-color: #09315c !important; color: var(--neon-cyan) !important; border: 1px solid rgba(0, 229, 255, 0.4); 
+            background-color: rgba(0, 229, 255, 0.1) !important; color: var(--neon-cyan) !important; border: 1px solid var(--neon-cyan); 
             padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Orbitron';
             width: 100%; max-width: 70px; cursor: pointer; height: 22px; margin-top: 2px;
         }
         .live-btn-small {
-            background-color: #2e1c05 !important; color: var(--neon-orange) !important; border: 1px solid rgba(255, 145, 0, 0.4); 
+            background-color: rgba(255, 145, 0, 0.1) !important; color: var(--neon-orange) !important; border: 1px solid var(--neon-orange); 
             padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-family: 'Orbitron';
             width: 100%; max-width: 70px; cursor: pointer; height: 22px; margin-top: 2px;
+        }
+
+        body.theme-luxury .win-btn-small, body.theme-kemerdekaan .win-btn-small {
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+            border-radius: 12px;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.3);
+        }
+        body.theme-luxury .win-btn-small { border-color: rgba(255, 215, 0, 0.4); }
+        body.theme-kemerdekaan .win-btn-small { border-color: rgba(255, 255, 255, 0.5); }
+
+        body.theme-luxury .live-btn-small, body.theme-kemerdekaan .live-btn-small {
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255, 145, 0, 0.2) 100%) !important;
+            border-radius: 12px; border-color: rgba(255, 145, 0, 0.4);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.3);
         }
 
         .admin-only { display: none !important; }
@@ -170,7 +427,7 @@
         .sponsor-title { font-family: 'Orbitron', sans-serif; font-size: 0.7rem; color: var(--text-muted) !important; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
         .sponsor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
         .sponsor-item {
-            background-color: #05183b !important; border: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: rgba(255,255,255,0.03) !important; border: 1px solid var(--card-border);
             border-radius: 6px; padding: 8px 2px; display: flex; align-items: center; justify-content: center; min-height: 55px;
             cursor: default; transition: transform 0.2s;
         }
@@ -193,11 +450,11 @@
         
         .live-indicator {
             display: inline-flex; align-items: center; gap: 5px; font-family: 'Orbitron';
-            font-size: 0.6rem; color: #00e5ff !important; background: rgba(0, 229, 255, 0.06) !important;
-            padding: 3px 8px; border-radius: 20px; border: 1px solid rgba(0, 229, 255, 0.15);
+            font-size: 0.6rem; color: var(--neon-cyan) !important; background: rgba(255,255,255,0.03) !important;
+            padding: 3px 8px; border-radius: 20px; border: 1px solid var(--card-border);
             margin: 0 auto 12px auto; width: fit-content;
         }
-        .live-dot { width: 5px; height: 5px; background-color: #00e5ff !important; border-radius: 50%; animation: blink 1.2s infinite; }
+        .live-dot { width: 5px; height: 5px; background-color: var(--neon-cyan) !important; border-radius: 50%; animation: blink 1.2s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
         
         .reset-box {
@@ -206,9 +463,73 @@
         .reset-btn-sub {
             background: transparent !important; border: none; cursor: pointer; font-size: 0.65rem; font-family: 'Orbitron'; font-weight: bold; text-align: center; padding: 4px 0;
         }
+
+        .theme-panel-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        /* ATURAN KHUSUS CETAK PDF / PRINT */
+        @media print {
+            body, html {
+                background: var(--print-bg) !important;
+                color: var(--print-text) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            #loading-screen {
+                display: none !important;
+            }
+            .container {
+                padding: 20px !important;
+                background: transparent !important;
+            }
+            /* Sembunyikan elemen yang tidak diperlukan */
+            .bottom-nav,
+            .live-indicator,
+            .info-box,
+            .divider,
+            .sponsor-section,
+            .footer-info,
+            .copyright,
+            .admin-only,
+            .win-btn-small,
+            .live-btn-small,
+            button,
+            input {
+                display: none !important;
+            }
+            /* Paksa tampilan box judul dan konten tetap solid/terbaca */
+            h2, h3, th, td, .team-name {
+                color: var(--print-text) !important;
+                text-shadow: none !important;
+            }
+            .card {
+                background: rgba(0, 0, 0, 0.03) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .match-box {
+                background: rgba(0, 0, 0, 0.02) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1) !important;
+                border-left: 4px solid var(--print-text) !important;
+            }
+            .timer-realtime-text {
+                color: var(--print-text) !important;
+            }
+        }
     </style>
 </head>
 <body>
+
+    <div id="loading-screen">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Memuat Data Turnamen...</div>
+    </div>
 
     <div class="bottom-nav">
         <button class="btn-luxe viewer-only" onclick="requestAdmin()">ADMIN LOGIN</button>
@@ -218,12 +539,31 @@
     </div>
 
     <div class="container">
+        
         <div class="header-container">
-            <h2 id="main-title-display">BADMINTON LIVE TRACKER</h2>
-            <button class="btn-luxe admin-only" style="height:18px; padding:2px 5px; font-size:0.55rem;" onclick="editMainTitle()">EDIT</button>
+            <div class="logo-wrapper-box" id="logo-clickable" onclick="triggerLogoInput()">
+                <img id="logo-render-target" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%2300e5ff' stroke-width='3'/><text x='50' y='55' font-family='Orbitron' font-size='11' fill='%2300e5ff' text-anchor='middle'>NO LOGO</text></svg>">
+            </div>
+            <input type="file" id="logo-file-element" style="display:none;" accept="image/*" onchange="uploadLogoHandler(event)">
+
+            <div class="title-wrapper">
+                <h2 id="main-title-display">BADMINTON LIVE TRACKER</h2>
+                <button class="btn-luxe admin-only" style="height:18px; padding:2px 5px; font-size:0.55rem;" onclick="editMainTitle()">EDIT</button>
+            </div>
         </div>
         
         <div class="live-indicator"><span class="live-dot"></span>LIVE STORAGE ACTIVE</div>
+
+        <div class="card admin-only">
+            <div style="text-align:center; font-family:'Orbitron'; font-size:0.65rem; color:var(--neon-cyan); margin-bottom:4px;">PILIH TEMA INTERFACE</div>
+            <div class="theme-panel-grid">
+                <button class="btn-luxe" style="font-size:0.5rem; padding:4px 2px;" onclick="switchThemeAction('default')">Cyberpunk</button>
+                <button class="btn-luxe" style="font-size:0.5rem; padding:4px 2px;" onclick="switchThemeAction('kemerdekaan')">RI Merah</button>
+                <button class="btn-luxe" style="font-size:0.5rem; padding:4px 2px;" onclick="switchThemeAction('galaksi')">Galaksi</button>
+                <button class="btn-luxe" style="font-size:0.5rem; padding:4px 2px;" onclick="switchThemeAction('glass')">Glass Sport</button>
+                <button class="btn-luxe" style="font-size:0.5rem; padding:4px 2px; border-color:#ffd700;" onclick="switchThemeAction('luxury')">★ Luxury</button>
+            </div>
+        </div>
 
         <div class="info-box">
             <div class="info-header">
@@ -235,7 +575,7 @@
 
         <div id="add-team-card" class="card admin-only">
             <div style="display:flex; gap:6px; height: 34px; align-items: center;">
-                <input type="text" id="team-input" style="flex:1; padding:0 10px; height: 100%; border-radius:6px; background-color:#020b1e !important; color:white !important; border:1px solid rgba(255,255,255,0.15); font-family:'Rajdhani'; font-size: 0.9rem;" placeholder="Nama Tim Baru...">
+                <input type="text" id="team-input" style="flex:1; padding:0 10px; height: 100%; border-radius:6px; background-color:rgba(0,0,0,0.3) !important; color:white !important; border:1px solid rgba(255,255,255,0.15); font-family:'Rajdhani'; font-size: 0.9rem;" placeholder="Nama Tim Baru...">
                 <button class="btn-luxe" style="height: 100%; padding:0 12px;" onclick="addNewTeam()">TAMBAH</button>
             </div>
         </div>
@@ -305,19 +645,34 @@
 
         let appState = { 
             mainTitle: "BADMINTON LIVE TRACKER", 
+            currentTheme: "default",
+            competitionLogo: "",
             teams: [], 
             history: [], 
             sponsorImages: ["", "", "", "", "", "", "", ""], 
             sponsorLinks: ["", "", "", "", "", "", "", ""], 
             broadcastInfo: "Belum ada pengumuman terbaru dari panitia turnamen.",
             panitiaName: "Raja Salman",
-            panitiaPhone: "081360044697"
+            panitiaPhone: "6281360044697"
         };
         let isAdminActive = false;
         let activeSponsorSlot = null;
         let blockCloudRead = false;
+        let clockIntervalWorkers = {};
+
+        // SCRIPT TO HIDE LOADING SCREEN AFTER ALL ASSETS AND DATA INITIALIZED
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loading-screen');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    loader.style.visibility = 'hidden';
+                }
+            }, 600); // Penundaan tipis agar transisinya terasa mulus
+        });
 
         function getAdminPassword() { return localStorage.getItem('badmintonAdminPassword') || DEFAULT_PASSWORD; }
+        
         function changeAdminPassword() {
             let currentPass = prompt("Masukkan PIN Lama:");
             if (currentPass !== getAdminPassword()) { if (currentPass !== null) alert("PIN salah!"); return; }
@@ -325,6 +680,46 @@
             if (!newPass) { alert("PIN tidak boleh kosong!"); return; }
             localStorage.setItem('badmintonAdminPassword', newPass);
             alert("PIN Admin diperbarui!");
+        }
+
+        function triggerLogoInput() {
+            if (isAdminActive) {
+                document.getElementById('logo-file-element').click();
+            }
+        }
+
+        function uploadLogoHandler(event) {
+            const file = event.target.files[0]; if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                appState.competitionLogo = e.target.result;
+                displayLogoImage();
+                pushToFirebase();
+                event.target.value = ""; 
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayLogoImage() {
+            const imgTarget = document.getElementById('logo-render-target');
+            if (appState.competitionLogo) {
+                imgTarget.src = appState.competitionLogo;
+            } else {
+                imgTarget.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%2300e5ff' stroke-width='3'/><text x='50' y='55' font-family='Orbitron' font-size='11' fill='%2300e5ff' text-anchor='middle'>NO LOGO</text></svg>";
+            }
+        }
+
+        function switchThemeAction(themeKey) {
+            appState.currentTheme = themeKey;
+            refreshBodyThemeClass();
+            pushToFirebase();
+        }
+
+        function refreshBodyThemeClass() {
+            document.body.className = isAdminActive ? 'admin-mode' : '';
+            if (appState.currentTheme && appState.currentTheme !== 'default') {
+                document.body.classList.add('theme-' + appState.currentTheme);
+            }
         }
 
         function editMainTitle() {
@@ -357,7 +752,7 @@
             let newName = prompt("Masukkan NAMA PANITIA baru:", currentName);
             if(newName === null) return;
             
-            let newPhone = prompt("Masukkan NOMOR WA PANITIA baru:\n(Contoh: 081360044697 atau 6281360044697)", currentPhone);
+            let newPhone = prompt("Masukkan NOMOR WA PANITIA baru:", currentPhone);
             if(newPhone === null) return;
             
             let cleanPhone = newPhone.replace(/[^0-9]/g, "");
@@ -375,16 +770,13 @@
         function renderPanitiaContact() {
             let name = appState.panitiaName || "Raja Salman";
             let phone = appState.panitiaPhone || "6281360044697";
-            
             let formattedDisplayPhone = phone;
             if(phone.startsWith("62")) {
                 formattedDisplayPhone = "0" + phone.slice(2);
             }
-            // Format tampilan spasi agar rapi (ex: 0813-6004-4697)
             if(formattedDisplayPhone.length >= 11) {
                 formattedDisplayPhone = formattedDisplayPhone.replace(/(\d{4})(\d{4})(\d+)/, "$1-$2-$3");
             }
-
             const linkEl = document.getElementById("panitia-link");
             linkEl.href = `https://wa.me/${phone}`;
             linkEl.innerText = `${name} (${formattedDisplayPhone})`;
@@ -411,16 +803,20 @@
                     let cloudData = await res.json();
                     if (cloudData && !blockCloudRead) {
                         appState.mainTitle = cloudData.mainTitle || "BADMINTON LIVE TRACKER";
+                        appState.currentTheme = cloudData.currentTheme || "default";
+                        appState.competitionLogo = cloudData.competitionLogo || "";
                         appState.teams = cloudData.teams || [];
                         appState.history = cloudData.history || [];
-                        appState.sponsorImages = cloudData.sponsorImages || ["", "", "", "", "", "", "", ""];
-                        appState.sponsorLinks = cloudData.sponsorLinks || ["", "", "", "", "", "", "", ""];
-                        appState.broadcastInfo = cloudData.broadcastInfo || "Belum ada pengumuman terbaru dari panitia turnamen.";
+                        appState.sponsorImages = cloudData.sponsorImages || ["", "", "", "", "", "", "", ""], 
+                        appState.sponsorLinks = cloudData.sponsorLinks || ["", "", "", "", "", "", "", ""], 
+                        appState.broadcastInfo = cloudData.broadcastInfo || "Belum ada pengumuman terbaru dari panitia turnamen.",
                         appState.panitiaName = cloudData.panitiaName || "Raja Salman";
                         appState.panitiaPhone = cloudData.panitiaPhone || "6281360044697";
                         
                         document.getElementById('main-title-display').innerText = appState.mainTitle;
                         document.getElementById('broadcast-display').innerText = appState.broadcastInfo;
+                        refreshBodyThemeClass();
+                        displayLogoImage();
                         renderAll();
                         renderSponsors();
                         renderPanitiaContact();
@@ -454,14 +850,12 @@
             if (isAdminActive) {
                 activeSponsorSlot = idx;
                 let currentLink = appState.sponsorLinks && appState.sponsorLinks[idx] ? appState.sponsorLinks[idx] : "";
-                let newLink = prompt("Masukkan Link Google Maps untuk Sponsor ini:\n(Kosongkan jika tidak ada, atau klik Cancel untuk lewati)", currentLink);
-                
+                let newLink = prompt("Masukkan Link Google Maps untuk Sponsor ini:", currentLink);
                 if (newLink !== null) {
                     if (!appState.sponsorLinks) appState.sponsorLinks = ["", "", "", "", "", "", "", ""];
                     appState.sponsorLinks[idx] = newLink.trim();
                 }
-                
-                if (confirm("Apakah Anda juga ingin mengubah / mengunggah GAMBAR LOGO untuk slot sponsor ini?")) {
+                if (confirm("Apakah Anda juga ingin mengubah GAMBAR LOGO untuk slot sponsor ini?")) {
                     document.getElementById('sponsor-file-picker').click();
                 } else {
                     renderSponsors();
@@ -469,9 +863,7 @@
                 }
             } else {
                 let targetMap = appState.sponsorLinks && appState.sponsorLinks[idx] ? appState.sponsorLinks[idx] : "";
-                if (targetMap) {
-                    window.open(targetMap, '_blank');
-                }
+                if (targetMap) window.open(targetMap, '_blank');
             }
         }
 
@@ -486,11 +878,20 @@
         }
 
         function requestAdmin() {
-            if (prompt("Masukkan PIN Kunci Admin:") === getAdminPassword()) { isAdminActive = true; applyViewMode(); renderAll(); } 
-            else { alert("PIN Salah!"); }
+            if (prompt("Masukkan PIN Kunci Admin:") === getAdminPassword()) { 
+                isAdminActive = true; 
+                refreshBodyThemeClass(); 
+                renderAll(); 
+            } else { 
+                alert("PIN Salah!"); 
+            }
         }
-        function logoutAdmin() { isAdminActive = false; applyViewMode(); renderAll(); }
-        function applyViewMode() { document.body.classList.toggle('admin-mode', isAdminActive); }
+        
+        function logoutAdmin() { 
+            isAdminActive = false; 
+            refreshBodyThemeClass(); 
+            renderAll(); 
+        }
 
         function addNewTeam() {
             if (appState.history.some(h => h.type === 'WIN')) return alert("Skor sudah dicatat, kunci aktif!");
@@ -518,7 +919,27 @@
             return stats;
         }
 
+        function transformMsToTimeFormat(msValue) {
+            let totalSeconds = Math.floor(msValue / 1000);
+            let absoluteMinutes = Math.floor(totalSeconds / 60);
+            let absoluteSeconds = totalSeconds % 60;
+            return `${absoluteMinutes.toString().padStart(2, '0')}:${absoluteSeconds.toString().padStart(2, '0')}`;
+        }
+
         function renderAll() {
+            // PERBAIKAN: Bersihkan hanya interval pertandingan yang sudah TIADA/COMPLETED di cloud data terbaru
+            const activeMatchesInCloud = appState.history
+                .filter(h => h.type === 'START_LIVE')
+                .map(h => h.data.matchId);
+
+            Object.keys(clockIntervalWorkers).forEach(matchIdKey => {
+                let mId = parseInt(matchIdKey);
+                if (!activeMatchesInCloud.includes(mId)) {
+                    clearInterval(clockIntervalWorkers[mId]);
+                    delete clockIntervalWorkers[mId];
+                }
+            });
+
             const stats = calculateStats(); 
             const isStarted = appState.history.some(h => h.type === 'WIN');
             document.getElementById('add-team-card').classList.toggle('locked', isStarted);
@@ -553,26 +974,71 @@
                     const resLive = appState.history.filter(h => h.type === 'START_LIVE').find(h => h.data.matchId === i);
                     
                     let matchClass = "";
-                    if (resWin) matchClass = "completed";
-                    else if (resLive) matchClass = "live-match";
+                    let liveTimerBoxHTML = "";
+
+                    if (resWin) {
+                        matchClass = "completed";
+                        if(resWin.data.duration) {
+                            liveTimerBoxHTML = `<div class="timer-realtime-text">⏱️ ${resWin.data.duration}</div>`;
+                        }
+                    } else if (resLive) {
+                        matchClass = "live-match";
+                        liveTimerBoxHTML = `<div class="timer-realtime-text" id="runtime-node-${i}">⏱️ 00:00</div>`;
+                        
+                        let baseTriggerTime = resLive.data.startTime;
+                        // PERBAIKAN: Hanya buat interval baru jika interval untuk ID pertandingan ini belum aktif mendeteksi detik
+                        if (!clockIntervalWorkers[i]) {
+                            setTimeout(() => {
+                                const domTarget = document.getElementById(`runtime-node-${i}`);
+                                if(domTarget) {
+                                    clockIntervalWorkers[i] = setInterval(() => {
+                                        let deltaDiff = Date.now() - baseTriggerTime;
+                                        domTarget.innerText = "⏱️ " + transformMsToTimeFormat(deltaDiff);
+                                    }, 1000);
+                                }
+                            }, 40);
+                        } else {
+                            // Jika interval sudah berjalan di latar belakang, langsung tampilkan waktu kalkulasi sementaranya saat re-render
+                            let currentDelta = Date.now() - baseTriggerTime;
+                            liveTimerBoxHTML = `<div class="timer-realtime-text" id="runtime-node-${i}">⏱️ ${transformMsToTimeFormat(currentDelta)}</div>`;
+                        }
+                    }
+
+                    let actionButtonLeftHTML = "";
+                    let actionButtonRightHTML = "";
+                    let centerStatusHTML = "";
+
+                    if (resWin) {
+                        actionButtonLeftHTML = resWin.data.winner === m[0] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>';
+                        actionButtonRightHTML = resWin.data.winner === m[1] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>';
+                        centerStatusHTML = `<div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:'Orbitron'; margin-bottom:2px;">VS</div> ${liveTimerBoxHTML}`;
+                    } else if (resLive) {
+                        actionButtonLeftHTML = isAdminActive ? `<button class="win-btn-small" onclick="recordWin(${i},'${m[0]}','${m[1]}')">WIN</button>` : '';
+                        actionButtonRightHTML = isAdminActive ? `<button class="win-btn-small" onclick="recordWin(${i},'${m[1]}','${m[0]}')">WIN</button>` : '';
+                        centerStatusHTML = `<div class="live-playing-tag">🔴 LIVE</div> ${liveTimerBoxHTML}`;
+                    } else {
+                        actionButtonLeftHTML = '';
+                        actionButtonRightHTML = '';
+                        centerStatusHTML = `
+                            <div>
+                                <div class="status-tag upcoming">NEXT</div>
+                                ${isAdminActive ? `<button class="live-btn-small" onclick="startLiveMatch(${i})">LIVE</button>` : ''}
+                            </div>`;
+                    }
 
                     return `
                         <div class="match-box ${matchClass}">
                             <div class="match-main">
                                 <div class="team-col">
                                     <div class="team-name">${m[0]}</div>
-                                    ${resWin ? (resWin.data.winner === m[0] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : 
-                                      (resLive ? `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[0]}','${m[1]}')">WIN</button>` : '')}
+                                    ${actionButtonLeftHTML}
                                 </div>
                                 <div style="text-align:center;">
-                                    ${resWin ? '<div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:\'Orbitron\';">VS</div>' : 
-                                      (resLive ? '<div class="live-playing-tag">🔴 LIVE</div>' : 
-                                      `<div><div style="color:var(--text-muted); font-size:0.55rem; border:1px solid rgba(255,255,255,0.15); padding:2px 5px; border-radius:4px; font-family:\'Orbitron\'; margin-bottom:4px;">VS</div><button class="live-btn-small admin-only" onclick="startLiveMatch(${i})">LIVE</button></div>`)}
+                                    ${centerStatusHTML}
                                 </div>
                                 <div class="team-col">
                                     <div class="team-name">${m[1]}</div>
-                                    ${resWin ? (resWin.data.winner === m[1] ? '<div class="status-tag win">WIN</div>' : '<div class="status-tag lose">LOSE</div>') : 
-                                      (resLive ? `<button class="win-btn-small admin-only" onclick="recordWin(${i},'${m[1]}','${m[0]}')">WIN</button>` : '')}
+                                    ${actionButtonRightHTML}
                                 </div>
                             </div>
                         </div>`;
@@ -581,15 +1047,36 @@
         }
 
         function startLiveMatch(matchId) {
+            if(!isAdminActive) return;
             blockCloudRead = true;
-            appState.history.push({ type: 'START_LIVE', data: { matchId: matchId } });
+            appState.history.push({ 
+                type: 'START_LIVE', 
+                data: { matchId: matchId, startTime: Date.now() } 
+            });
             renderAll(); pushToFirebase();
         }
 
         function recordWin(m, w, l) { 
+            if(!isAdminActive) return;
             blockCloudRead = true;
+            let currentLiveState = appState.history.find(h => h.type === 'START_LIVE' && h.data.matchId === m);
+            let finalTimeResult = "00:00";
+            
+            if(currentLiveState && currentLiveState.data.startTime) {
+                let accumulatedMs = Date.now() - currentLiveState.data.startTime;
+                finalTimeResult = transformMsToTimeFormat(accumulatedMs);
+            }
+
+            if (clockIntervalWorkers[m]) {
+                clearInterval(clockIntervalWorkers[m]);
+                delete clockIntervalWorkers[m];
+            }
+
             appState.history = appState.history.filter(h => !(h.type === 'START_LIVE' && h.data.matchId === m));
-            appState.history.push({ type: 'WIN', data: { matchId: m, winner: w, loser: l } });
+            appState.history.push({ 
+                type: 'WIN', 
+                data: { matchId: m, winner: w, loser: l, duration: finalTimeResult } 
+            });
             renderAll(); pushToFirebase();
         }
 
@@ -603,8 +1090,8 @@
         }
         
         async function confirmTournamentReset() { 
-            if(confirm("⚠️ PERINGATAN:\nSemua data nama pemain, skor pertandingan, dan riwayat klasemen akan DIHAPUS dan HILANG dari sistem!\n\n(INFO: Gambar LOGO SPONSOR Anda tetap AMAN disimpan).\n\nApakah Anda yakin?")) { 
-                let inputPin = prompt("Masukkan PIN Admin untuk konfirmasi penghapusan data pemain:");
+            if(confirm("⚠️ PERINGATAN:\nSemua data nama pemain, skor pertandingan, dan riwayat klasemen akan DIHAPUS!\nApakah Anda yakin?")) { 
+                let inputPin = prompt("Masukkan PIN Admin untuk konfirmasi:");
                 if (inputPin === getAdminPassword()) {
                     blockCloudRead = true;
                     appState.mainTitle = "BADMINTON LIVE TRACKER";
@@ -612,7 +1099,7 @@
                     appState.history = [];
                     appState.broadcastInfo = "Belum ada pengumuman terbaru dari panitia turnamen.";
                     renderAll(); await pushToFirebase();
-                    alert("Data turnamen berhasil dibersihkan! Sponsor tetap aman.");
+                    alert("Data turnamen berhasil dibersihkan!");
                 } else {
                     if (inputPin !== null) alert("PIN Salah! Penghapusan dibatalkan.");
                 }
@@ -620,12 +1107,14 @@
         }
 
         async function confirmTotalReset() { 
-            if(confirm("🚨 PERINGATAN KERAS:\nSemua data pemain, riwayat skor, klasemen, DAN seluruh gambar LOGO SPONSOR & LINK MAPS akan DIHAPUS TOTAL dari database!\n\nApakah Anda benar-benar yakin?")) { 
-                let inputPin = prompt("Masukkan PIN Admin untuk konfirmasi RESET TOTAL:");
+            if(confirm("🚨 PERINGATAN TOTAL RESET:\nSeluruh data tim, riwayat skor, Gambar LOGO LIGA dan LOGO SPONSOR akan dihapus bersih secara permanen!")) { 
+                let inputPin = prompt("Masukkan PIN Admin:");
                 if (inputPin === getAdminPassword()) {
                     blockCloudRead = true;
                     appState = { 
                         mainTitle: "BADMINTON LIVE TRACKER", 
+                        currentTheme: "default",
+                        competitionLogo: "",
                         teams: [], 
                         history: [], 
                         sponsorImages: ["", "", "", "", "", "", "", ""], 
@@ -634,10 +1123,10 @@
                         panitiaName: "Raja Salman",
                         panitiaPhone: "6281360044697"
                     };
-                    renderAll(); renderSponsors(); renderPanitiaContact(); await pushToFirebase();
-                    alert("Seluruh database telah dikosongkan total!");
+                    renderAll(); renderSponsors(); renderPanitiaContact(); displayLogoImage(); refreshBodyThemeClass(); await pushToFirebase();
+                    alert("Seluruh database dikosongkan total!");
                 } else {
-                    if (inputPin !== null) alert("PIN Salah! Reset total dibatalkan.");
+                    if (inputPin !== null) alert("PIN Salah!");
                 }
             } 
         }
@@ -652,7 +1141,8 @@
         }
 
         listenToFirebase();
-        applyViewMode(); 
+        refreshBodyThemeClass(); 
+        displayLogoImage();
         renderAll();
         renderSponsors();
         renderPanitiaContact();
